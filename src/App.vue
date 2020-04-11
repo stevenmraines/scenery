@@ -1,57 +1,88 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app dark>
       <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              color="primary"
+              dark
+              v-on="on"
+            >
+              File
+            </v-btn>
+          </template>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in fileMenu"
+              :key="index"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              color="primary"
+              dark
+              v-on="on"
+            >
+              Edit
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in editMenu"
+              :key="index"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-content>
-      <HelloWorld />
+      <project-tab :cards="cards" :name="name" />
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import ProjectTab from "./components/ProjectTab.vue";
 
 export default Vue.extend({
   name: "App",
 
   components: {
-    HelloWorld
+    ProjectTab
   },
 
   data: () => ({
-    //
+    cards: [{
+        back: "BACK Test scene #1",
+        backgroundColor: "white",
+        fontColor: "black",
+        front: "Test scene #1",
+        isPlot: true,
+        key: 1
+    }],
+    editMenu: [
+      { title: "Add a Card" },
+      { title: "Edit Card" },
+      { title: "Delete Card" }
+    ],
+    fileMenu: [
+      { title: "New Project" },
+      { title: "Open Project" },
+      { title: "Save Project" }
+    ],
+    name: "Test Project"
   })
 });
 </script>
