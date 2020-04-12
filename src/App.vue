@@ -1,53 +1,33 @@
 <template>
   <v-app>
-    <v-app-bar app dark>
-      <div class="d-flex align-center">
+    <v-app-bar app>
+      <div class="mr-3">
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn
-              color="primary"
-              dark
-              v-on="on"
-            >
+            <v-btn color="primary" v-on="on">
               File
             </v-btn>
           </template>
 
           <v-list>
-            <v-list-item
-              v-for="(item, index) in fileMenu"
-              :key="index"
-            >
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item @click="newProject">
+              <v-list-item-title>New Project</v-list-item-title>
             </v-list-item>
-          </v-list>
-        </v-menu>
-
-        <v-menu offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn
-              color="primary"
-              dark
-              v-on="on"
-            >
-              Edit
-            </v-btn>
-          </template>
-
-          <v-list>
-            <v-list-item
-              v-for="(item, index) in editMenu"
-              :key="index"
-            >
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item @click="openProject">
+              <v-list-item-title>Open Project</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="saveProject">
+              <v-list-item-title>Save Project</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
       </div>
+
+      {{ projectName }}
     </v-app-bar>
 
     <v-content>
-      <project-tab :cards="cards" :name="name" />
+      <project-tab :cards="cards" :project-name="projectName" />
     </v-content>
   </v-app>
 </template>
@@ -64,25 +44,57 @@ export default Vue.extend({
   },
 
   data: () => ({
-    cards: [{
+    cards: [
+      {
         back: "BACK Test scene #1",
         backgroundColor: "white",
         fontColor: "black",
         front: "Test scene #1",
-        isPlot: true,
-        key: 1
-    }],
-    editMenu: [
-      { title: "Add a Card" },
-      { title: "Edit Card" },
-      { title: "Delete Card" }
+        isPlot: true
+      },
+      {
+        back: "BACK Test scene #1",
+        backgroundColor: "white",
+        fontColor: "black",
+        front: "Test scene #2",
+        isPlot: true
+      },
+      {
+        back: "BACK Test scene #1",
+        backgroundColor: "white",
+        fontColor: "black",
+        front: "Test scene #3",
+        isPlot: true
+      },
+      {
+        back: "BACK Test scene #1",
+        backgroundColor: "white",
+        fontColor: "black",
+        front: "Test scene #1",
+        isPlot: true
+      },
+      {
+        back: "BACK Test scene #1",
+        backgroundColor: "white",
+        fontColor: "black",
+        front: "Test scene #2",
+        isPlot: true
+      },
+      {
+        back: "BACK Test scene #1",
+        backgroundColor: "white",
+        fontColor: "black",
+        front: "Test scene #3",
+        isPlot: true
+      }
     ],
-    fileMenu: [
-      { title: "New Project" },
-      { title: "Open Project" },
-      { title: "Save Project" }
-    ],
-    name: "Test Project"
-  })
+    projectName: "Test Project"
+  }),
+
+  methods: {
+    newProject: () => console.log('New Project clicked'),
+    openProject: () => console.log('Open Project clicked'),
+    saveProject: () => console.log('Save Project clicked')
+  }
 });
 </script>
