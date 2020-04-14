@@ -19,6 +19,6 @@ import Card from "./Card.vue";
 export default Vue.extend({
   components: { Card },
   name: "ProjectTab",
-  props: ["cards", "projectName"]
+  props: ["cards"]
 });
 </script>
