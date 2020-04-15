@@ -24,13 +24,40 @@
         </v-menu>
       </div>
 
-      <input v-model="project.title" />
+      <div id="project-title-container">
+        <span>{{ project.title }}</span>
+        <i
+          @click="editProjectTitle"
+          class="clickable mdi mdi-file-document-edit"
+        ></i>
+      </div>
 
-      <i class="mdi mdi-file-document-edit"></i>
+      <div id="project-title-edit-container" style="display: none;">
+        <!-- TODO undo all this work I just did to use Vuetify text field instead... -->
+        <input
+          id="project-title"
+          style="border-bottom: 1px solid black; outline: none;"
+          v-model="project.title"
+        />
+        <i
+          @click="saveProjectTitle"
+          class="clickable mdi mdi-check"
+          style="color: lawngreen;"
+        ></i>
+      </div>
     </v-app-bar>
 
     <v-content>
-      <project-tab :cards="project.cards" />
+      <v-container fluid>
+        <v-row>
+          <v-col cols="12" md="3">
+            <modify-card></modify-card>
+          </v-col>
+          <v-col>
+            <project-tab :cards="project.cards" />
+          </v-col>
+        </v-row>
+      </v-container>
     </v-content>
   </v-app>
 </template>
@@ -38,11 +65,13 @@
 <script lang="ts">
 import Vue from "vue";
 import ProjectTab from "./components/ProjectTab.vue";
+import ModifyCard from "./components/ModifyCard.vue";
 
 export default Vue.extend({
   name: "App",
 
   components: {
+    ModifyCard,
     ProjectTab
   },
 
@@ -54,59 +83,56 @@ export default Vue.extend({
     project: {
       cards: [
         {
-          back: "BACK Test scene #1",
           backgroundColor: "white",
+          description: "BACK Test scene #1",
           fontColor: "black",
-          front: "Test scene #1",
-          isPlot: true
+          isPlot: true,
+          title: "Test scene #1"
         },
         {
-          back: "BACK Test scene #1",
           backgroundColor: "white",
+          description: "BACK Test scene #1",
           fontColor: "black",
-          front: "Test scene #2",
-          isPlot: true
+          isPlot: true,
+          title: "Test scene #2"
         },
         {
-          back: "BACK Test scene #1",
           backgroundColor: "white",
+          description: "BACK Test scene #1",
           fontColor: "black",
-          front: "Test scene #3",
-          isPlot: true
-        },
-        {
-          back: "BACK Test scene #1",
-          backgroundColor: "white",
-          fontColor: "black",
-          front: "Test scene #1",
-          isPlot: true
-        },
-        {
-          back: "BACK Test scene #1",
-          backgroundColor: "white",
-          fontColor: "black",
-          front: "Test scene #2",
-          isPlot: true
-        },
-        {
-          back: "BACK Test scene #1",
-          backgroundColor: "white",
-          fontColor: "black",
-          front: "Test scene #3",
-          isPlot: true
+          isPlot: true,
+          title: "Test scene #3"
         }
       ],
-      title: "Test Project"
+      title: "New Project"
     }
   }),
 
   methods: {
+    // TODO make the title edit / save stuff not automatically save changes
+    editProjectTitle: function() {
+      const projectTitle = document.getElementById("project-title");
+      const projectTitleContainer = document.getElementById("project-title-container");
+      const projectTitleEditContainer = document.getElementById("project-title-edit-container");
+      if (projectTitle && projectTitleContainer && projectTitleEditContainer) {
+        projectTitleContainer.style.display = "none";
+        projectTitleEditContainer.style.display = "block";
+        projectTitle.focus();
+      }
+    },
     getFilename: function() {
       // TODO make this strip out any unusable characters
       return this.project.title + ".json";
     },
+    hasFocus: function(element: HTMLElement | null) {
+      return element === document.activeElement;
+    },
     keyListener: function(event: KeyboardEvent) {
       switch (event.key) {
+        case "Enter":
+        case "Escape":
+          this.saveProjectTitleIfActive();
+          break;
         case "n":
           break;
         case "o":
@@ -156,6 +182,19 @@ export default Vue.extend({
       anchor.click();
       document.body.removeChild(anchor);
       URL.revokeObjectURL(anchor.href);
+    },
+    saveProjectTitle: function() {
+      const projectTitleContainer = document.getElementById("project-title-container");
+      const projectTitleEditContainer = document.getElementById("project-title-edit-container");
+      if (projectTitleContainer && projectTitleEditContainer) {
+        projectTitleContainer.style.display = "block";
+        projectTitleEditContainer.style.display = "none";
+      }
+    },
+    saveProjectTitleIfActive: function() {
+      if (this.hasFocus(document.getElementById("project-title"))) {
+        this.saveProjectTitle();
+      }
     }
   }
 });

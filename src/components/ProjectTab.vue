@@ -1,12 +1,12 @@
 <template>
   <div class="align-center d-flex flex-wrap justify-space-around pa-3">
     <Card
-      :back="card.back"
       :background-color="card.backgroundColor"
+      :description="card.description"
       :font-color="card.fontColor"
-      :front="card.front"
       :is-plot="card.isPlot"
       :key="index"
+      :title="card.title"
       v-for="(card, index) in cards"
     />
   </div>

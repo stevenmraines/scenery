@@ -3,7 +3,7 @@
     class="align-center card d-inline-block elevation-2 ma-2 pa-2 text-center"
     :style="{ 'background-color': backgroundColor }"
   >
-    {{ front }}
+    {{ title }}
   </span>
 </template>
 
@@ -12,6 +12,6 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "Card",
-  props: ["back", "backgroundColor", "fontColor", "front", "isPlot"]
+  props: ["backgroundColor", "description", "fontColor", "isPlot", "title"]
 });
 </script>
