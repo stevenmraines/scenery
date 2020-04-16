@@ -23,8 +23,7 @@ export default new Vuex.Store({
     SET_TITLE: (state, title) => (state.project.title = title)
   },
   actions: {
-    // addCard: () => {},
-    // setTitle: () => {}
+    // For asynchronous mutations
   },
   modules: {}
 });

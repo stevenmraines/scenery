@@ -1,10 +1,8 @@
 <template>
-  <span
-    class="align-center card d-inline-block elevation-2 ma-2 pa-2 text-center"
-    :style="{ 'background-color': backgroundColor }"
-  >
-    {{ title }}
-  </span>
+  <v-card class="index-card" :style="{ 'background-color': backgroundColor }">
+    <v-card-title>{{ title }}</v-card-title>
+    <v-card-text>{{ description }}</v-card-text>
+  </v-card>
 </template>
 
 <script>
