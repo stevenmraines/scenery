@@ -24,26 +24,10 @@
         </v-menu>
       </div>
 
-      <div id="project-title-container">
-        <span>{{ project.title }}</span>
-        <i
-          @click="editProjectTitle"
-          class="clickable mdi mdi-file-document-edit"
-        ></i>
-      </div>
-
-      <div id="project-title-edit-container" style="display: none;">
-        <!-- TODO undo all this work I just did to use Vuetify text field instead... -->
-        <input
-          id="project-title"
-          style="border-bottom: 1px solid black; outline: none;"
-          v-model="project.title"
-        />
-        <i
-          @click="saveProjectTitle"
-          class="clickable mdi mdi-check"
-          style="color: lawngreen;"
-        ></i>
+      <div>
+        <v-form @submit.prevent="setTitle">
+          <v-text-field label="Project" v-model="newTitle"></v-text-field>
+        </v-form>
       </div>
     </v-app-bar>
 
@@ -51,10 +35,10 @@
       <v-container fluid>
         <v-row>
           <v-col cols="12" md="3">
-            <modify-card></modify-card>
+            <modify-card />
           </v-col>
           <v-col>
-            <project-tab :cards="project.cards" />
+            <project />
           </v-col>
         </v-row>
       </v-container>
@@ -64,7 +48,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import ProjectTab from "./components/ProjectTab.vue";
+import { mapState, mapMutations } from "vuex";
+import Project from "./components/Project.vue";
 import ModifyCard from "./components/ModifyCard.vue";
 
 export default Vue.extend({
@@ -72,54 +57,25 @@ export default Vue.extend({
 
   components: {
     ModifyCard,
-    ProjectTab
+    Project
+  },
+
+  data() {
+    return {
+      newTitle: this.$store.state.project.title
+    };
+  },
+
+  computed: {
+    ...mapState(["project"])
   },
 
   created() {
     document.addEventListener("keyup", this.keyListener);
   },
 
-  data: () => ({
-    project: {
-      cards: [
-        {
-          backgroundColor: "white",
-          description: "BACK Test scene #1",
-          fontColor: "black",
-          isPlot: true,
-          title: "Test scene #1"
-        },
-        {
-          backgroundColor: "white",
-          description: "BACK Test scene #1",
-          fontColor: "black",
-          isPlot: true,
-          title: "Test scene #2"
-        },
-        {
-          backgroundColor: "white",
-          description: "BACK Test scene #1",
-          fontColor: "black",
-          isPlot: true,
-          title: "Test scene #3"
-        }
-      ],
-      title: "New Project"
-    }
-  }),
-
   methods: {
-    // TODO make the title edit / save stuff not automatically save changes
-    editProjectTitle: function() {
-      const projectTitle = document.getElementById("project-title");
-      const projectTitleContainer = document.getElementById("project-title-container");
-      const projectTitleEditContainer = document.getElementById("project-title-edit-container");
-      if (projectTitle && projectTitleContainer && projectTitleEditContainer) {
-        projectTitleContainer.style.display = "none";
-        projectTitleEditContainer.style.display = "block";
-        projectTitle.focus();
-      }
-    },
+    ...mapMutations(["SET_TITLE"]),
     getFilename: function() {
       // TODO make this strip out any unusable characters
       return this.project.title + ".json";
@@ -129,10 +85,6 @@ export default Vue.extend({
     },
     keyListener: function(event: KeyboardEvent) {
       switch (event.key) {
-        case "Enter":
-        case "Escape":
-          this.saveProjectTitleIfActive();
-          break;
         case "n":
           break;
         case "o":
@@ -183,18 +135,8 @@ export default Vue.extend({
       document.body.removeChild(anchor);
       URL.revokeObjectURL(anchor.href);
     },
-    saveProjectTitle: function() {
-      const projectTitleContainer = document.getElementById("project-title-container");
-      const projectTitleEditContainer = document.getElementById("project-title-edit-container");
-      if (projectTitleContainer && projectTitleEditContainer) {
-        projectTitleContainer.style.display = "block";
-        projectTitleEditContainer.style.display = "none";
-      }
-    },
-    saveProjectTitleIfActive: function() {
-      if (this.hasFocus(document.getElementById("project-title"))) {
-        this.saveProjectTitle();
-      }
+    setTitle: function() {
+      this.SET_TITLE(this.newTitle);
     }
   }
 });

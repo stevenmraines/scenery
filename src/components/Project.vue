@@ -7,18 +7,21 @@
       :is-plot="card.isPlot"
       :key="index"
       :title="card.title"
-      v-for="(card, index) in cards"
+      v-for="(card, index) in project.cards"
     />
   </div>
 </template>
 
 <script>
 import Vue from "vue";
+import { mapState } from "vuex";
 import Card from "./Card.vue";
 
 export default Vue.extend({
   components: { Card },
-  name: "ProjectTab",
-  props: ["cards"]
+  computed: {
+    ...mapState(["project"])
+  },
+  name: "Project"
 });
 </script>
