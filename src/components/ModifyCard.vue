@@ -8,6 +8,12 @@
         v-model="newCard.description"
       ></v-textarea>
       <v-checkbox label="Plot Scene" v-model="newCard.isPlot"></v-checkbox>
+      <input id="bg-color" type="color" v-model="newCard.backgroundColor" />
+      <label for="bg-color">Background Color</label>
+      <br />
+      <input id="font-color" type="color" v-model="newCard.fontColor" />
+      <label for="font-color">Font Color</label>
+      <br />
       <v-btn color="primary" type="submit">Save</v-btn>
     </v-form>
   </div>
@@ -25,9 +31,9 @@ export default Vue.extend({
   data() {
     return {
       newCard: {
-        backgroundColor: "white",
+        backgroundColor: "#ffffff",
         description: "",
-        fontColor: "black",
+        fontColor: "#000000",
         isPlot: false,
         title: ""
       }
@@ -38,9 +44,9 @@ export default Vue.extend({
     saveChanges: function() {
       this.ADD_CARD(this.newCard);
       this.newCard = {
-        backgroundColor: "white",
+        backgroundColor: "#ffffff",
         description: "",
-        fontColor: "black",
+        fontColor: "#000000",
         isPlot: false,
         title: ""
       };

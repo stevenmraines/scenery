@@ -8,7 +8,7 @@ export default new Vuex.Store({
   actions: {}, // For asynchronous mutations
   getters: {
     // TODO is this needed for Card child component?
-    getCardByIndex: (state) => (index: number) => {
+    getCardByIndex: state => (index: number) => {
       state.project.cards.filter(function(card, i) {
         return i === index;
       });
@@ -47,9 +47,9 @@ export default new Vuex.Store({
     project: {
       cards: [
         {
-          backgroundColor: "white",
+          backgroundColor: "#ffffff",
           description: "Add a longer description or some notes here.",
-          fontColor: "black",
+          fontColor: "#000000",
           isPlot: true,
           title: "Add a title here"
         } as CardType
