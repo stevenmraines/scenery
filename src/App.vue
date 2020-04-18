@@ -75,7 +75,7 @@ export default Vue.extend({
   },
 
   methods: {
-    ...mapMutations(["SET_TITLE"]),
+    ...mapMutations(["REDO", "SET_TITLE", "UNDO"]),
     getFilename: function() {
       // TODO make this strip out any unusable characters
       return this.project.title + ".json";
@@ -92,6 +92,16 @@ export default Vue.extend({
         case "s":
           if (event.ctrlKey) {
             this.saveProject();
+          }
+          break;
+        case "y":
+          if (event.ctrlKey) {
+            this.redo();
+          }
+          break;
+        case "z":
+          if (event.ctrlKey) {
+            this.undo();
           }
           break;
         default:
@@ -125,6 +135,9 @@ export default Vue.extend({
       input.addEventListener("change", this.openFile);
       input.click();
     },
+    redo: function() {
+      this.REDO();
+    },
     saveProject: function() {
       const anchor = document.createElement("a") as HTMLAnchorElement;
       const file = new Blob([JSON.stringify(this.project)], { type: "json" });
@@ -137,6 +150,9 @@ export default Vue.extend({
     },
     setTitle: function() {
       this.SET_TITLE(this.newTitle);
+    },
+    undo: function() {
+      this.UNDO();
     }
   }
 });

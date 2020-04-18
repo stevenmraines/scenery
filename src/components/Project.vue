@@ -1,14 +1,6 @@
 <template>
   <div class="align-center d-flex flex-wrap justify-space-around pa-3">
-    <Card
-      :background-color="card.backgroundColor"
-      :description="card.description"
-      :font-color="card.fontColor"
-      :is-plot="card.isPlot"
-      :key="index"
-      :title="card.title"
-      v-for="(card, index) in project.cards"
-    />
+    <Card :card="card" :key="index" v-for="(card, index) in project.cards" />
   </div>
 </template>
 
