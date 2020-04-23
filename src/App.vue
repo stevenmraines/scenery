@@ -3,7 +3,7 @@
     <v-app-bar app>
       <div class="mr-3">
         <v-menu offset-y>
-          <template v-slot:activator="{ on }">
+          <template #activator="{ on }">
             <v-btn color="primary" v-on="on">
               File
             </v-btn>
@@ -34,9 +34,6 @@
     <v-content>
       <v-container fluid>
         <v-row>
-          <v-col cols="12" md="3">
-            <modify-card />
-          </v-col>
           <v-col>
             <project />
           </v-col>
@@ -50,13 +47,11 @@
 import Vue from "vue";
 import { mapState, mapMutations } from "vuex";
 import Project from "./components/Project.vue";
-import ModifyCard from "./components/ModifyCard.vue";
 
 export default Vue.extend({
   name: "App",
 
   components: {
-    ModifyCard,
     Project
   },
 
@@ -70,43 +65,14 @@ export default Vue.extend({
     ...mapState(["project"])
   },
 
-  created() {
-    document.addEventListener("keyup", this.keyListener);
-  },
-
   methods: {
-    ...mapMutations(["REDO", "SET_TITLE", "UNDO"]),
+    ...mapMutations(["SET_TITLE"]),
     getFilename: function() {
       // TODO make this strip out any unusable characters
       return this.project.title + ".json";
     },
     hasFocus: function(element: HTMLElement | null) {
       return element === document.activeElement;
-    },
-    keyListener: function(event: KeyboardEvent) {
-      switch (event.key) {
-        case "n":
-          break;
-        case "o":
-          break;
-        case "s":
-          if (event.ctrlKey) {
-            this.saveProject();
-          }
-          break;
-        case "y":
-          if (event.ctrlKey) {
-            this.redo();
-          }
-          break;
-        case "z":
-          if (event.ctrlKey) {
-            this.undo();
-          }
-          break;
-        default:
-          break;
-      }
     },
     newProject: () => console.log("New Project clicked"),
     openFile: function(event: Event) {
@@ -135,9 +101,6 @@ export default Vue.extend({
       input.addEventListener("change", this.openFile);
       input.click();
     },
-    redo: function() {
-      this.REDO();
-    },
     saveProject: function() {
       const anchor = document.createElement("a") as HTMLAnchorElement;
       const file = new Blob([JSON.stringify(this.project)], { type: "json" });
@@ -150,9 +113,6 @@ export default Vue.extend({
     },
     setTitle: function() {
       this.SET_TITLE(this.newTitle);
-    },
-    undo: function() {
-      this.UNDO();
     }
   }
 });

@@ -1,3 +1,7 @@
+interface ActBreak {
+  act: number;
+}
+
 interface CardType {
   backgroundColor: string;
   description: string;

@@ -1,6 +1,6 @@
 <template>
   <v-menu transition="slide-x-transition">
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-card
         class="index-card"
         :style="{ 'background-color': card.backgroundColor }"
