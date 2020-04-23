@@ -9,6 +9,7 @@ export default new Vuex.Store({
   getters: {},
   modules: {},
   mutations: {
+    ADD_ACT_BREAK: () => console.log("Add act break"),
     ADD_CARD: (state, card) => state.project.cards.push(card),
     EDIT_CARD: (state, data) =>
       (state.project.cards[data.index] = data.newCard),

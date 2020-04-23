@@ -6,7 +6,10 @@
         :style="{ 'background-color': card.backgroundColor }"
         v-on="on"
       >
-        <v-card-title>{{ card.title }}</v-card-title>
+        <v-card-title>
+          {{ card.title }}
+          <i class="mdi ml-auto" :class="isPlotIcon"></i>
+        </v-card-title>
         <v-card-text>{{ card.description }}</v-card-text>
       </v-card>
     </template>
@@ -28,6 +31,15 @@ import Vue from "vue";
 import { mapMutations } from "vuex";
 
 export default Vue.extend({
+  computed: {
+    isPlotIcon: function() {
+      return {
+        isPlot: this.card.isPlot,
+        "mdi-star": this.card.isPlot,
+        "mdi-star-outline": !this.card.isPlot
+      };
+    }
+  },
   methods: {
     ...mapMutations(["EDIT_CARD", "REMOVE_CARD"]),
     editCard: function() {

@@ -20,15 +20,39 @@
             <v-list-item @click="saveProject">
               <v-list-item-title>Save Project</v-list-item-title>
             </v-list-item>
+            <v-list-item @click="projectSettings">
+              <v-list-item-title>Project Settings</v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-menu>
       </div>
 
-      <div>
-        <v-form @submit.prevent="setTitle">
-          <v-text-field label="Project" v-model="newTitle"></v-text-field>
-        </v-form>
+      <div class="mr-3">
+        <v-menu offset-y>
+          <template #activator="{ on }">
+            <v-btn color="primary" v-on="on">
+              Edit
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item @click="addCard">
+              <v-list-item-title>Add Card</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="addActBreak">
+              <v-list-item-title>Add Act Break</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="editCard" disabled>
+              <v-list-item-title>Edit Card</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="removeCard" disabled>
+              <v-list-item-title>Delete Card</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
+
+      <div>{{ project.title }}</div>
     </v-app-bar>
 
     <v-content>
@@ -55,18 +79,15 @@ export default Vue.extend({
     Project
   },
 
-  data() {
-    return {
-      newTitle: this.$store.state.project.title
-    };
-  },
-
   computed: {
     ...mapState(["project"])
   },
 
   methods: {
-    ...mapMutations(["SET_TITLE"]),
+    ...mapMutations(["ADD_ACT_BREAK", "ADD_CARD", "EDIT_CARD", "REMOVE_CARD"]),
+    addActBreak: () => console.log("Add act break"),
+    addCard: () => console.log("Add card"),
+    editCard: () => console.log("Edit card"),
     getFilename: function() {
       // TODO make this strip out any unusable characters
       return this.project.title + ".json";
@@ -101,6 +122,8 @@ export default Vue.extend({
       input.addEventListener("change", this.openFile);
       input.click();
     },
+    projectSettings: () => console.log("Project settings"),
+    removeCard: () => console.log("Remove card"),
     saveProject: function() {
       const anchor = document.createElement("a") as HTMLAnchorElement;
       const file = new Blob([JSON.stringify(this.project)], { type: "json" });
@@ -110,9 +133,6 @@ export default Vue.extend({
       anchor.click();
       document.body.removeChild(anchor);
       URL.revokeObjectURL(anchor.href);
-    },
-    setTitle: function() {
-      this.SET_TITLE(this.newTitle);
     }
   }
 });
