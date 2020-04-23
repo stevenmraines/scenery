@@ -52,7 +52,7 @@
         </v-menu>
       </div>
 
-      <div>{{ project.title }}</div>
+      <div>{{ project.getTitle() }}</div>
     </v-app-bar>
 
     <v-content>
