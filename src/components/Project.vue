@@ -5,9 +5,9 @@
     </v-tabs>
     <div class="align-center d-flex flex-wrap justify-space-around pa-3">
       <Card
-              :card="card"
-              :key="index"
-              v-for="(card, index) in project.getCards()"
+        :card="card"
+        :key="index"
+        v-for="(card, index) in project.getCards()"
       />
     </div>
   </div>

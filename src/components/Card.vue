@@ -3,14 +3,14 @@
     <template #activator="{ on }">
       <v-card
         class="index-card"
-        :style="{ 'background-color': card.backgroundColor }"
+        :style="{ 'background-color': card.getStatus().getColor() }"
         v-on="on"
       >
         <v-card-title>
-          {{ card.title }}
+          {{ card.getTitle() }}
           <i class="mdi ml-auto" :class="isPlotIcon"></i>
         </v-card-title>
-        <v-card-text>{{ card.description }}</v-card-text>
+        <v-card-text>{{ card.getDescription() }}</v-card-text>
       </v-card>
     </template>
     <v-list>
@@ -34,9 +34,9 @@ export default Vue.extend({
   computed: {
     isPlotIcon: function() {
       return {
-        isPlot: this.card.isPlot,
-        "mdi-star": this.card.isPlot,
-        "mdi-star-outline": !this.card.isPlot
+        isPlot: this.card.getIsPlot(),
+        "mdi-star": this.card.getIsPlot(),
+        "mdi-star-outline": !this.card.getIsPlot()
       };
     }
   },
@@ -52,6 +52,7 @@ export default Vue.extend({
       this.REMOVE_CARD(this.card);
     }
   },
+  // TODO rename this to Scene
   name: "Card",
   props: ["card"]
 });
