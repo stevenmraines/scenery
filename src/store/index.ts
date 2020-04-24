@@ -39,6 +39,12 @@ export default new Vuex.Store({
           true,
           new Status("#ffffff", "Scene Not Written"),
           "Add a title here"
+        ),
+        new Scene(
+          "Wow, what a description!",
+          false,
+          new Status("#dcffdc", "Scene Completed"),
+          "Completed"
         )
       ],
       "New Project"

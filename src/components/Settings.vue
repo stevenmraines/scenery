@@ -3,7 +3,9 @@
     <v-row>
       <v-col>
         <v-form @submit.prevent="setTitle">
-          <h2 class="font-weight-light">Project Title</h2>
+          <h1 class="font-weight-light">Project Settings</h1>
+          <v-divider class="my-4"></v-divider>
+          <h2 class="font-weight-light">Title</h2>
           <v-text-field autofocus v-model="newTitle"></v-text-field>
           <h2 class="font-weight-light">Statuses</h2>
           <color-input

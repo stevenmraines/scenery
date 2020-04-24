@@ -7,17 +7,22 @@
         v-on="on"
       >
         <v-card-title>
-          {{ scene.getTitle() }}
-          <i class="mdi ml-auto" :class="isPlotIcon"></i>
+          <span>{{ scene.getTitle() }}</span>
+          <v-spacer></v-spacer>
+          <v-icon :class="{ isPlot: isPlot }">
+            {{ icon }}
+          </v-icon>
         </v-card-title>
         <v-card-text>{{ scene.getDescription() }}</v-card-text>
       </v-card>
     </template>
     <v-list>
-      <v-list-item list>
+      <v-list-item>
         <v-list-item-title @click="editScene">
           Edit this scene
         </v-list-item-title>
+      </v-list-item>
+      <v-list-item>
         <v-list-item-title @click="removeScene">
           Remove this scene
         </v-list-item-title>
@@ -32,12 +37,11 @@ import { mapMutations } from "vuex";
 
 export default Vue.extend({
   computed: {
-    isPlotIcon: function() {
-      return {
-        isPlot: this.scene.getIsPlot(),
-        "mdi-star": this.scene.getIsPlot(),
-        "mdi-star-outline": !this.scene.getIsPlot()
-      };
+    icon: function() {
+      return this.isPlot ? "mdi-star" : "mdi-star-outline";
+    },
+    isPlot: function() {
+      return this.scene.getIsPlot();
     }
   },
   methods: {

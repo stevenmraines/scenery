@@ -1,38 +1,33 @@
 <template>
   <v-app>
+    <v-navigation-drawer app v-model="drawer">
+      <v-list nav>
+        <v-list-item :key="index" v-for="(item, index) in navItems">
+          <v-list-item-content>
+            <v-list-item-title>
+              <router-link :to="item.to" v-if="item.to">
+                {{ item.text }}
+              </router-link>
+              <div @click.stop="item.click" v-else>
+                {{ item.text }}
+              </div>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-app-bar app dense flat>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
         Scene<span class="font-weight-light">ry</span>
       </v-toolbar-title>
-      <v-navigation-drawer absolute app temporary v-model="drawer">
-        <v-list nav>
-          <v-list-item :key="index" v-for="(item, index) in navItems">
-            <v-list-item-content>
-              <v-list-item-title>
-                <router-link :to="item.to" v-if="item.to">
-                  {{ item.text }}
-                </router-link>
-                <div @click.stop="item.click" v-else>
-                  {{ item.text }}
-                </div>
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
       <v-spacer></v-spacer>
       <v-btn href="" small text>View on Github</v-btn>
     </v-app-bar>
 
     <v-content>
-      <v-container fluid>
-        <v-row>
-          <v-col>
-            <router-view />
-          </v-col>
-        </v-row>
-      </v-container>
+      <router-view />
     </v-content>
   </v-app>
 </template>
