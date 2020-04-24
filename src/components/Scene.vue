@@ -3,23 +3,23 @@
     <template #activator="{ on }">
       <v-card
         class="index-card"
-        :style="{ 'background-color': card.getStatus().getColor() }"
+        :style="{ 'background-color': scene.getStatus().getColor() }"
         v-on="on"
       >
         <v-card-title>
-          {{ card.getTitle() }}
+          {{ scene.getTitle() }}
           <i class="mdi ml-auto" :class="isPlotIcon"></i>
         </v-card-title>
-        <v-card-text>{{ card.getDescription() }}</v-card-text>
+        <v-card-text>{{ scene.getDescription() }}</v-card-text>
       </v-card>
     </template>
     <v-list>
       <v-list-item list>
-        <v-list-item-title @click="editCard">
-          Edit this card
+        <v-list-item-title @click="editScene">
+          Edit this scene
         </v-list-item-title>
-        <v-list-item-title @click="removeCard">
-          Remove this card
+        <v-list-item-title @click="removeScene">
+          Remove this scene
         </v-list-item-title>
       </v-list-item>
     </v-list>
@@ -34,26 +34,25 @@ export default Vue.extend({
   computed: {
     isPlotIcon: function() {
       return {
-        isPlot: this.card.getIsPlot(),
-        "mdi-star": this.card.getIsPlot(),
-        "mdi-star-outline": !this.card.getIsPlot()
+        isPlot: this.scene.getIsPlot(),
+        "mdi-star": this.scene.getIsPlot(),
+        "mdi-star-outline": !this.scene.getIsPlot()
       };
     }
   },
   methods: {
-    ...mapMutations(["EDIT_CARD", "REMOVE_CARD"]),
-    editCard: function() {
-      this.EDIT_CARD({
+    ...mapMutations(["EDIT_SCENE", "REMOVE_SCENE"]),
+    editScene: function() {
+      this.EDIT_SCENE({
         index: this.$vnode.key,
-        newCard: this.card
+        newScene: this.scene
       });
     },
-    removeCard: function() {
-      this.REMOVE_CARD(this.card);
+    removeScene: function() {
+      this.REMOVE_SCENE(this.scene);
     }
   },
-  // TODO rename this to Scene
-  name: "Card",
-  props: ["card"]
+  name: "Scene",
+  props: ["scene"]
 });
 </script>
