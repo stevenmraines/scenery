@@ -45,7 +45,7 @@
 import Vue from "vue";
 import * as _ from "lodash";
 import Scene from "@/classes/Scene";
-import { mapState, mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default Vue.extend({
   computed: {

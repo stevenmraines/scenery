@@ -4,7 +4,7 @@
       <v-col>
         <v-form @submit.prevent="setTitle">
           <div>
-            <h1 class="d-inline-block font-weight-light">Project Settings</h1>
+            <h1 class="d-inline-block font-weight-light">{{ $route.name }}</h1>
             <router-link to="project">
               <v-tooltip bottom>
                 <template #activator="{ on }">
@@ -51,10 +51,13 @@ export default Vue.extend({
   computed: {
     ...mapState(["project", "statuses"])
   },
+  created() {
+    this.newTitle = this.project.getTitle();
+  },
   data() {
     return {
       newSettings: {},
-      newTitle: "" //this.project.getTitle()
+      newTitle: ""
     };
   },
   methods: {

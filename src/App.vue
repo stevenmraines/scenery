@@ -19,6 +19,11 @@
             <router-link to="addScene">Add a Scene</router-link>
           </v-list-item-title>
         </v-list-item>
+        <v-list-item>
+          <v-list-item-title>
+            <router-link to="addActBreak">Add an Act Break</router-link>
+          </v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
