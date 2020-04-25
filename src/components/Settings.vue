@@ -3,7 +3,25 @@
     <v-row>
       <v-col>
         <v-form @submit.prevent="setTitle">
-          <h1 class="font-weight-light">Project Settings</h1>
+          <div>
+            <h1 class="d-inline-block font-weight-light">Project Settings</h1>
+            <router-link to="project">
+              <v-tooltip bottom>
+                <template #activator="{ on }">
+                  <v-btn
+                    class="float-right"
+                    color="primary"
+                    icon
+                    large
+                    v-on="on"
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </template>
+                <span>Return to Project View</span>
+              </v-tooltip>
+            </router-link>
+          </div>
           <v-divider class="my-4"></v-divider>
           <h2 class="font-weight-light">Title</h2>
           <v-text-field autofocus v-model="newTitle"></v-text-field>

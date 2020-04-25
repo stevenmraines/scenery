@@ -14,7 +14,7 @@ export default new Vuex.Store({
   modules: {},
   mutations: {
     ADD_ACT_BREAK: (state, actBreak) => state.project.getCards().push(actBreak),
-    ADD_SCENE: (state, card) => state.project.getCards().push(card),
+    ADD_SCENE: (state, scene) => state.project.getCards().push(scene),
     // ADD_STATUS: () => (),
     EDIT_ACT_BREAK: (state, data) =>
       state.project.setCards(

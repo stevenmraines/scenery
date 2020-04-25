@@ -9,9 +9,14 @@
         <v-card-title>
           <span>{{ scene.getTitle() }}</span>
           <v-spacer></v-spacer>
-          <v-icon :class="{ isPlot: isPlot }">
-            {{ icon }}
-          </v-icon>
+          <v-tooltip top>
+            <template #activator="{ on }">
+              <v-icon :class="{ 'is-plot': isPlot }" v-on="on">
+                {{ icon }}
+              </v-icon>
+            </template>
+            <span>{{ isPlot ? "Plot Scene" : "Filler Scene" }}</span>
+          </v-tooltip>
         </v-card-title>
         <v-card-text>{{ scene.getDescription() }}</v-card-text>
       </v-card>
