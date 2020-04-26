@@ -16,3 +16,11 @@
 .is-plot {
   color: gold !important;
 }
+
+.project {
+  align-content: start;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 32px;
+}

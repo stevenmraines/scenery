@@ -22,17 +22,52 @@
               </v-tooltip>
             </router-link>
           </div>
-          <v-divider class="my-4"></v-divider>
-          <h2 class="font-weight-light">Title</h2>
-          <v-text-field autofocus v-model="settings.title"></v-text-field>
-          <h2 class="font-weight-light">Statuses</h2>
-          <color-input
-            :default="status.getColor()"
+          <v-text-field
+            autofocus
+            label="Title"
+            v-model="settings.title"
+          ></v-text-field>
+          <h2 class="font-weight-light mb-4">Statuses</h2>
+          <div
+            class="d-flex justify-space-between"
             :key="index"
-            :label="'\'' + status.getName() + '\' Color'"
-            v-for="(status, index) in statuses"
-          ></color-input>
-          <v-btn type="submit">Save</v-btn>
+            v-for="(status, index) in settings.statuses"
+          >
+            <v-tooltip top>
+              <template #activator="{ on }">
+                <v-btn
+                  elevation="3"
+                  icon
+                  large
+                  :style="{ 'background-color': status.color }"
+                  v-on="on"
+                >
+                  <v-icon>mdi-format-color-fill</v-icon>
+                </v-btn>
+              </template>
+              <span>Color {{ status.color }}</span>
+            </v-tooltip>
+            <input
+              style="visibility: hidden;"
+              type="color"
+              v-model="status.color"
+            />
+            <v-text-field label="Name" v-model="status.name"></v-text-field>
+            <v-tooltip top>
+              <template #activator="{ on }">
+                <v-btn
+                  @click.prevent="removeStatus(status)"
+                  icon
+                  large
+                  v-on="on"
+                >
+                  <v-icon>mdi-trash-can</v-icon>
+                </v-btn>
+              </template>
+              <span>Remove Status</span>
+            </v-tooltip>
+          </div>
+          <v-btn color="primary" type="submit">Save</v-btn>
         </v-form>
       </v-col>
     </v-row>
@@ -41,29 +76,58 @@
 
 <script>
 import Vue from "vue";
-import ColorInput from "@/components/ColorInput";
+import * as _ from "lodash";
+import Status from "@/classes/Status";
 import { mapMutations, mapState } from "vuex";
 
 export default Vue.extend({
-  components: {
-    ColorInput
-  },
   computed: {
     ...mapState(["project", "statuses"])
   },
   created() {
+    this.settings.statuses = this.getStatuses();
     this.settings.title = this.project.getTitle();
   },
   data() {
     return {
       settings: {
+        statuses: [],
         title: ""
       }
     };
   },
   methods: {
-    ...mapMutations(["SET_TITLE"]),
+    ...mapMutations(["SET_STATUSES", "SET_TITLE"]),
+    getStatuses() {
+      const statuses = [];
+      for (let i = 0; i < this.statuses.length; i++) {
+        statuses.push({
+          color: this.statuses[i].getColor(),
+          name: this.statuses[i].getName()
+        });
+      }
+      return statuses;
+    },
+    getStatusObjects() {
+      const objects = [];
+      for (let i = 0; i < this.statuses.length; i++) {
+        objects.push(
+          new Status(this.statuses[i].getColor(), this.statuses[i].getName())
+        );
+      }
+      return objects;
+    },
+    removeStatus(status) {
+      // TODO ask for confirmation first
+      Vue.set(
+        this.settings,
+        "statuses",
+        _.pull(this.settings.statuses, status)
+      );
+      this.$forceUpdate();
+    },
     submit() {
+      this.SET_STATUSES(this.getStatusObjects());
       this.SET_TITLE(this.settings.title);
       this.$router.push("project");
     }

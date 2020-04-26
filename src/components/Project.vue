@@ -43,7 +43,11 @@
                     </v-expansion-panel-content>
                   </v-expansion-panel>
                 </v-expansion-panels>
-                <v-btn class="mt-6" @click.prevent="resetFilters" primary>
+                <v-btn
+                  class="mt-6"
+                  @click.prevent="resetFilters"
+                  color="primary"
+                >
                   Reset
                 </v-btn>
               </v-form>
@@ -54,9 +58,7 @@
     </v-row>
     <v-row class="full" no-gutters>
       <v-col class="full">
-        <div
-          class="align-content-start d-flex flex-wrap full justify-space-around pa-8"
-        >
+        <div class="full project">
           <!-- TODO figure out how to display act breaks -->
           <div
             class="ma-4"

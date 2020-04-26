@@ -1,12 +1,14 @@
 <template>
   <div>
     <v-input
+      append-icon="mdi-trash-can-outline"
       @click:prepend="clickColorInput"
       :color="color"
+      dense
       :messages="color"
-      prepend-icon="mdi-palette-swatch"
+      prepend-icon="mdi-format-color-fill"
     >
-      {{ label }}
+      <v-text-field label="Name" :value="status.getName()"></v-text-field>
     </v-input>
     <input
       ref="colorInput"
@@ -23,7 +25,7 @@ import Vue from "vue";
 export default Vue.extend({
   data() {
     return {
-      color: this.default
+      color: this.status.getColor()
     };
   },
   methods: {
@@ -31,7 +33,7 @@ export default Vue.extend({
       this.$refs.colorInput.click();
     }
   },
-  name: "ColorInput",
-  props: ["default", "label"]
+  name: "StatusInput",
+  props: ["status"]
 });
 </script>

@@ -29,19 +29,16 @@ export default new Vuex.Store({
   mutations: {
     ADD_ACT_BREAK: (state, actBreak) => state.project.getCards().push(actBreak),
     ADD_SCENE: (state, scene) => state.project.getCards().push(scene),
-    // ADD_STATUS: () => (),
     EDIT_ACT_BREAK: (state, data) =>
       state.project.setCards(
         state.project.getCards().splice(data.index, 1, data.newActBreak)
       ),
     EDIT_SCENE: (state, data) =>
       (state.project.getCards()[data.index] = data.newScene),
-    EDIT_STATUS: (state, data) =>
-      state.statuses.splice(data.index, 1, data.status),
     // REMOVE_ACT_BREAK: () => (),
     REMOVE_SCENE: (state, scene) =>
       state.project.setCards(_.pull(state.project.getCards(), scene)),
-    // REMOVE_STATUS: () => (),
+    SET_STATUSES: (state, statuses) => (state.statuses = statuses),
     SET_TITLE: (state, title) => state.project.setTitle(title)
   },
   state: {

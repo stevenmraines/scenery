@@ -18,7 +18,7 @@
         <v-divider></v-divider>
         <v-list-item link>
           <v-list-item-icon>
-            <v-icon>mdi-view-dashboard</v-icon>
+            <v-icon>mdi-file-plus</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>
