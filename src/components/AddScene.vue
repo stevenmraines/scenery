@@ -4,7 +4,7 @@
       <v-col>
         <v-form @submit.prevent="addScene">
           <div>
-            <h1 class="d-inline-block font-weight-light">Add a Scene</h1>
+            <h1 class="d-inline-block font-weight-light">Add Scene</h1>
             <router-link to="project">
               <v-tooltip bottom>
                 <template #activator="{ on }">

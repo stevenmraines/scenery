@@ -7,35 +7,65 @@
         </v-tabs>
       </v-col>
     </v-row>
+    <v-row no-gutters>
+      <v-col>
+        <v-expansion-panels>
+          <v-expansion-panel>
+            <v-expansion-panel-header>Filters</v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-form>
+                <v-checkbox
+                  class="mt-0"
+                  dense
+                  label="Plot Scenes"
+                  v-model="filters.plot"
+                ></v-checkbox>
+                <v-checkbox
+                  class="mt-0"
+                  dense
+                  label="Filler Scenes"
+                  v-model="filters.filler"
+                ></v-checkbox>
+                <v-expansion-panels>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>
+                      Statuses
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-switch
+                        class="mt-0"
+                        dense
+                        :key="index"
+                        :label="index"
+                        v-for="(status, index) in filters.statuses"
+                        v-model="filters.statuses[index]"
+                      ></v-switch>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+                <v-btn class="mt-6" @click.prevent="resetFilters" primary>
+                  Reset
+                </v-btn>
+              </v-form>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+    </v-row>
     <v-row class="full" no-gutters>
       <v-col class="full">
-        <v-menu transition="slide-x-transition">
-          <template #activator="{ on }">
-            <div
-              class="d-flex flex-wrap full justify-space-around pa-8"
-              v-on="on"
-            >
-              <!-- TODO figure out how to display both of these in order -->
-              <!--<act-break
-                :act-break="actBreak"
-                :key="index"
-                v-for="(actBreak, index) in actBreaks"
-              />-->
-              <Scene
-                :scene="scene"
-                :key="index"
-                v-for="(scene, index) in scenes"
-              />
-            </div>
-          </template>
-          <v-list>
-            <v-list-item>
-              <v-list-item-title>
-                Add a Scene
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <div
+          class="align-content-start d-flex flex-wrap full justify-space-around pa-8"
+        >
+          <!-- TODO figure out how to display act breaks -->
+          <div
+            class="ma-4"
+            :key="index"
+            v-for="(scene, index) in filteredScenes"
+          >
+            <Scene :scene="scene" />
+          </div>
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -43,23 +73,51 @@
 
 <script>
 import Vue from "vue";
-import { mapState } from "vuex";
-// import ActBreak from "./ActBreak";
+import * as _ from "lodash";
+import { mapGetters, mapState } from "vuex";
 import Scene from "./Scene.vue";
-import ActBreakObj from "@/classes/ActBreak";
-import SceneObj from "@/classes/Scene";
 
 export default Vue.extend({
   components: { Scene },
   computed: {
+    ...mapGetters(["actBreaks", "statusNames", "scenes"]),
     ...mapState(["project"]),
-    actBreaks: function() {
-      return this.project
-        .getCards()
-        .filter(card => card instanceof ActBreakObj);
+    filteredScenes() {
+      return this.scenes.filter(this.filter);
+    }
+  },
+  created() {
+    for (let i = 0; i < this.statusNames.length; i++) {
+      Vue.set(this.filters.statuses, this.statusNames[i], true);
+    }
+  },
+  data() {
+    return {
+      filters: {
+        plot: true,
+        filler: true,
+        statuses: {}
+      }
+    };
+  },
+  methods: {
+    filter(scene) {
+      return (
+        ((this.filters.plot && scene.getIsPlot()) ||
+          (this.filters.filler && !scene.getIsPlot())) &&
+        this.filters.statuses[scene.getStatus().getName()]
+      );
     },
-    scenes: function() {
-      return this.project.getCards().filter(card => card instanceof SceneObj);
+    resetFilters() {
+      this.filters.plot = true;
+      this.filters.filler = true;
+      Vue.set(
+        this.filters,
+        "statuses",
+        _.mapValues(this.filters.statuses, () => {
+          return true;
+        })
+      );
     }
   },
   name: "Project"

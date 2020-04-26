@@ -4,7 +4,7 @@
       <v-col>
         <v-form @submit.prevent="addActBreak">
           <div>
-            <h1 class="d-inline-block font-weight-light">Add an Act Break</h1>
+            <h1 class="d-inline-block font-weight-light">Add Act Break</h1>
             <router-link to="project">
               <v-tooltip bottom>
                 <template #activator="{ on }">

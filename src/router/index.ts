@@ -11,12 +11,12 @@ export default new Router({
   routes: [
     {
       component: AddActBreak,
-      name: "Add an Act Break",
+      name: "Add Act Break",
       path: "/addActBreak"
     },
     {
       component: AddScene,
-      name: "Add a Scene",
+      name: "Add Scene",
       path: "/addScene"
     },
     {

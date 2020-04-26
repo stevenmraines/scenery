@@ -56,7 +56,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>
-              <router-link to="addScene">Add a Scene</router-link>
+              <router-link to="addScene">Add Scene</router-link>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -66,7 +66,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>
-              <router-link to="addActBreak">Add an Act Break</router-link>
+              <router-link to="addActBreak">Add Act Break</router-link>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

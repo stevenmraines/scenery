@@ -10,7 +10,21 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   actions: {}, // For asynchronous mutations
-  getters: {},
+  getters: {
+    actBreaks: state => {
+      return state.project.getCards().filter(card => card instanceof ActBreak);
+    },
+    statusNames: state => {
+      const names = [];
+      for (let i = 0; i < state.statuses.length; i++) {
+        names.push(state.statuses[i].getName());
+      }
+      return names;
+    },
+    scenes: state => {
+      return state.project.getCards().filter(card => card instanceof Scene);
+    }
+  },
   modules: {},
   mutations: {
     ADD_ACT_BREAK: (state, actBreak) => state.project.getCards().push(actBreak),
@@ -37,24 +51,18 @@ export default new Vuex.Store({
         new Scene(
           "Add a scene description here",
           true,
-          new Status("#ffffff", "Scene Not Written"),
+          new Status("#ffffff", "Not Written"),
           "Add a title here"
-        ),
-        new Scene(
-          "Wow, what a description!",
-          false,
-          new Status("#dcffdc", "Scene Completed"),
-          "Completed"
         )
       ],
       "New Project"
     ),
     statuses: [
-      new Status("#ffffff", "Scene Not Written"),
-      new Status("#dcffdc", "Scene Completed"),
-      new Status("#dcdcff", "Scene Partially Written"),
-      new Status("#ffffdc", "Scene Needs Rewrites"),
-      new Status("#ffdcdc", "Scene Possibly Unnecessary")
+      new Status("#ffffff", "Not Written"),
+      new Status("#dcffdc", "Completed"),
+      new Status("#dcdcff", "Partially Written"),
+      new Status("#ffffdc", "Needs Rewrites"),
+      new Status("#ffdcdc", "Possibly Unnecessary")
     ]
   }
 });

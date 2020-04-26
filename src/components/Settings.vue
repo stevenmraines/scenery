@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-form @submit.prevent="setTitle">
+        <v-form @submit.prevent="submit">
           <div>
             <h1 class="d-inline-block font-weight-light">{{ $route.name }}</h1>
             <router-link to="project">
@@ -24,7 +24,7 @@
           </div>
           <v-divider class="my-4"></v-divider>
           <h2 class="font-weight-light">Title</h2>
-          <v-text-field autofocus v-model="newTitle"></v-text-field>
+          <v-text-field autofocus v-model="settings.title"></v-text-field>
           <h2 class="font-weight-light">Statuses</h2>
           <color-input
             :default="status.getColor()"
@@ -52,18 +52,20 @@ export default Vue.extend({
     ...mapState(["project", "statuses"])
   },
   created() {
-    this.newTitle = this.project.getTitle();
+    this.settings.title = this.project.getTitle();
   },
   data() {
     return {
-      newSettings: {},
-      newTitle: ""
+      settings: {
+        title: ""
+      }
     };
   },
   methods: {
     ...mapMutations(["SET_TITLE"]),
-    setTitle: function() {
-      this.SET_TITLE(this.newTitle);
+    submit() {
+      this.SET_TITLE(this.settings.title);
+      this.$router.push("project");
     }
   },
   name: "Settings"
