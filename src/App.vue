@@ -1,28 +1,88 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="drawer">
+    <v-navigation-drawer app id="drawer" v-model="drawer">
       <v-list nav>
-        <v-list-item :key="index" v-for="(item, index) in navItems">
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>
-              <router-link :to="item.to" v-if="item.to">
-                {{ item.text }}
-              </router-link>
-              <div @click.stop="item.click" v-else>
-                {{ item.text }}
-              </div>
+            <v-list-item-title class="title">
+              <router-link to="project">Home</router-link>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
-          <v-list-item-title>
-            <router-link to="addScene">Add a Scene</router-link>
-          </v-list-item-title>
+      </v-list>
+      <v-list dense nav subheader>
+        <v-subheader>File</v-subheader>
+        <v-divider></v-divider>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-view-dashboard</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              <router-link to="/">New Project</router-link>
+            </v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
-        <v-list-item>
-          <v-list-item-title>
-            <router-link to="addActBreak">Add an Act Break</router-link>
-          </v-list-item-title>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-file-document</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              <div @click.stop="openProject">Open Project</div>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-file-document-edit</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              <div @click.stop="saveProject">Save Project</div>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-list dense nav subheader>
+        <v-subheader>Edit</v-subheader>
+        <v-divider></v-divider>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-credit-card-plus</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              <router-link to="addScene">Add a Scene</router-link>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-credit-card-plus</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              <router-link to="addActBreak">Add an Act Break</router-link>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-list dense nav subheader>
+        <v-subheader>Settings</v-subheader>
+        <v-divider></v-divider>
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-settings</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              <router-link to="settings">Project Settings</router-link>
+            </v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
