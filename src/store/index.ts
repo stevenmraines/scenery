@@ -38,10 +38,35 @@ export default new Vuex.Store({
     // REMOVE_ACT_BREAK: () => (),
     REMOVE_SCENE: (state, scene) =>
       state.project.setCards(_.pull(state.project.getCards(), scene)),
-    SET_STATUSES: (state, statuses) => (state.statuses = statuses),
+    SET_STATUSES: (state, statuses) => {
+      // Update statuses to keep
+      for (let i = 0; i < statuses.length; i++) {
+        const index = _.findIndex(state.statuses, ["id", statuses[i].id]);
+        state.statuses[index].setColor(statuses[i].color);
+        state.statuses[index].setName(statuses[i].name);
+      }
+      // Remove the statuses that were deleted
+      state.statuses = _.intersectionBy(state.statuses, statuses, "id");
+      // Update scene statuses
+      for (let i = 0; i < state.project.getCards().length; i++) {
+        if (state.project.getCards()[i] instanceof Scene) {
+          const status = (state.project.getCards()[i] as Scene).getStatus();
+          const statusIndex = _.findIndex(state.statuses, ["id", status]);
+          if (statusIndex >= 0) {
+            (state.project.getCards()[i] as Scene).setStatus(
+              state.statuses[statusIndex]
+            );
+          }
+          if (statusIndex === -1) {
+            (state.project.getCards()[i] as Scene).setStatus(null);
+          }
+        }
+      }
+    },
     SET_TITLE: (state, title) => state.project.setTitle(title)
   },
   state: {
+    // TODO statuses should probably be a property of the project
     project: new Project(
       [
         new ActBreak(1),

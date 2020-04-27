@@ -4,13 +4,13 @@ import Status from "./Status";
 export default class Scene extends Card {
   private description: string;
   private isPlot: boolean;
-  private status: Status;
+  private status: Status | null;
   private title: string;
 
   constructor(
     description: string,
     isPlot: boolean,
-    status: Status,
+    status: Status | null,
     title: string
   ) {
     super();
@@ -28,7 +28,7 @@ export default class Scene extends Card {
     return this.isPlot;
   }
 
-  public getStatus(): Status {
+  public getStatus(): Status | null {
     return this.status;
   }
 
@@ -44,7 +44,7 @@ export default class Scene extends Card {
     this.isPlot = isPlot;
   }
 
-  public setStatus(status: Status): void {
+  public setStatus(status: Status | null): void {
     this.status = status;
   }
 

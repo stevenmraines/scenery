@@ -30,12 +30,13 @@
           <h2 class="font-weight-light mb-4">Statuses</h2>
           <div
             class="d-flex justify-space-between"
-            :key="index"
-            v-for="(status, index) in settings.statuses"
+            :key="status.id"
+            v-for="status in settings.statuses"
           >
             <v-tooltip top>
               <template #activator="{ on }">
                 <v-btn
+                  @click.prevent="colorInputClick(status.id)"
                   elevation="3"
                   icon
                   large
@@ -48,6 +49,7 @@
               <span>Color {{ status.color }}</span>
             </v-tooltip>
             <input
+              :id="'color-input-' + status.id"
               style="visibility: hidden;"
               type="color"
               v-model="status.color"
@@ -77,7 +79,6 @@
 <script>
 import Vue from "vue";
 import * as _ from "lodash";
-import Status from "@/classes/Status";
 import { mapMutations, mapState } from "vuex";
 
 export default Vue.extend({
@@ -98,25 +99,29 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations(["SET_STATUSES", "SET_TITLE"]),
+    colorInputClick(statusId) {
+      document.getElementById("color-input-" + statusId).click();
+    },
     getStatuses() {
       const statuses = [];
       for (let i = 0; i < this.statuses.length; i++) {
         statuses.push({
           color: this.statuses[i].getColor(),
+          id: this.statuses[i].id,
           name: this.statuses[i].getName()
         });
       }
       return statuses;
     },
-    getStatusObjects() {
-      const objects = [];
-      for (let i = 0; i < this.statuses.length; i++) {
-        objects.push(
-          new Status(this.statuses[i].getColor(), this.statuses[i].getName())
-        );
-      }
-      return objects;
-    },
+    // getStatusObjects() {
+    //   const objects = [];
+    //   for (let i = 0; i < this.statuses.length; i++) {
+    //     objects.push(
+    //       new Status(this.statuses[i].getColor(), this.statuses[i].getName())
+    //     );
+    //   }
+    //   return objects;
+    // },
     removeStatus(status) {
       // TODO ask for confirmation first
       Vue.set(
@@ -127,7 +132,7 @@ export default Vue.extend({
       this.$forceUpdate();
     },
     submit() {
-      this.SET_STATUSES(this.getStatusObjects());
+      this.SET_STATUSES(this.settings.statuses);
       this.SET_TITLE(this.settings.title);
       this.$router.push("project");
     }
