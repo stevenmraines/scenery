@@ -1,10 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import * as _ from "lodash";
-import ActBreak from "@/classes/ActBreak";
-import Project from "@/classes/Project";
-import Scene from "@/classes/Scene";
-import Status from "@/classes/Status";
+import "@/types/ActBreak";
+import "@/types/Project";
+import "@/types/Scene";
+import "@/types/Status";
 
 Vue.use(Vuex);
 
@@ -12,7 +12,7 @@ export default new Vuex.Store({
   actions: {}, // For asynchronous mutations
   getters: {
     actBreaks: state => {
-      return state.project.getCards().filter(card => card instanceof ActBreak);
+      return state.project.cards.filter((card: ActBreak | Scene) => card is ActBreak);
     },
     statusNames: state => {
       const names = [];
